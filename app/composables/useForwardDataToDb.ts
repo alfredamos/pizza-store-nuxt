@@ -1,6 +1,4 @@
-
-type Method = 'post' | 'get'| 'patch' | 'put' | 'delete' | 'POST' | 'PATCH' | 'GET' | 'PUT' | 'DELETE';
-
+import type { Method } from "~~/constants/apiVerbers"
 
 export function useForwardDataToDb<T,U>(url: string, method: Method){
  async function sentDataToDb(body: T){

@@ -69,7 +69,7 @@
             <li>
               <NuxtLink to="/orders/orders-shipped">Shipped Orders</NuxtLink>
             </li>
-            <li><NuxtLink to="/pizzas">Pizzas</NuxtLink></li>
+            <li><NuxtLink to="/pizzas/list">Pizzas</NuxtLink></li>
             <li><NuxtLink to="/users">Users</NuxtLink></li>
           </template>
 
@@ -77,7 +77,7 @@
             <li>
               <NuxtLink to="/orders/orders-by-user-id">My Orders</NuxtLink>
             </li>
-            <li><NuxtLink to="/logout">Logout</NuxtLink></li>
+            <li><NuxtLink @onclick="logout" to="">Logout</NuxtLink></li>
           </template>
 
           <template v-if="!isLoggedIn">
@@ -91,12 +91,17 @@
 </template>
 
 <script lang="ts" setup>
-const { isAdmin, isLoggedIn, currentUser } = storeToRefs(useAuthStore());
+const authStore = useAuthStore();
+const { isAdmin, isLoggedIn, currentUser } = storeToRefs(authStore);
 const { totalQuantity } = storeToRefs(useCartItemStore());
 
 const firstName = computed(() => currentUser.value?.name?.split(" ")[0] ?? "");
 
 const open = ref(true);
+
+const logout = () => {
+  authStore.logout()
+}
 
 const onOpenDropdown = () => {
   console.log("In-navbar!!!");
@@ -106,4 +111,3 @@ const onOpenDropdown = () => {
 };
 </script>
 
-<style lang="scss" scoped></style>

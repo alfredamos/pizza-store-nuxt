@@ -1,7 +1,7 @@
 //import { defineStore } from "pinia";
-import type { Pizza } from "~~/models/pizzas/pizza.model";
-import { v4 as uuidv4 } from "uuid";
+import type { Pizza} from "~~/models/pizzas/pizza.model";
 import type { CartItem } from "~~/models/cartItems/cartItem.model";
+import { v4 as uuidv4 } from "uuid";
 import type { OrderPayload } from "~~/models/orders/orderPayload.model";
 import {defineStore} from "pinia";
 

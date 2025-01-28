@@ -20,7 +20,7 @@
       </template>
       <template v-if="isAdmin">
         <li class="mb-8" style="margin-left: 20px; margin-bottom: 60px">
-          <NuxtLink to="/pizzas">
+          <NuxtLink to="/pizzas/list">
             <GiFullPizza size="40px" class="text-rose-900 font-extrabold" />
           </NuxtLink>
         </li>

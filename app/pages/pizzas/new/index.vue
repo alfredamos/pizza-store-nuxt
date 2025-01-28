@@ -18,9 +18,8 @@ const pizzaStore = usePizzaStore();
 
 const {sentDataToDb} = useSentDataToDb<Pizza>(url, 'post')
 
-const { currentUser } = storeToRefs(authStore);
-const userId = currentUser.value?.id;
-console.log("In new pizza",{user:currentUser.value})
+const { userId } = storeToRefs(authStore);
+
 const pizza: Pizza = {
   id: uuidv4(),
   name: "",
@@ -29,7 +28,7 @@ const pizza: Pizza = {
   topping: "",
   description: "",
   image: "",
-  userId,
+  userId: userId.value,
 };
 
 const backToList = () => {
@@ -37,16 +36,16 @@ const backToList = () => {
 };
 
 const submitPizza = async (pizza: Pizza) => {
-  pizza.userId = userId;
-  console.log({ inputPizza: pizza, user:currentUser });
+  pizza.userId = userId.value;
+  console.log({ inputPizza: pizza, userId: userId.value });
   //----> Store the new pizza in the database.
-  /* const { data: newPizza } = await sentDataToDb(pizza);
+   const { data: newPizza } = await sentDataToDb(pizza);
 
   console.log({ outputPizza: newPizza });
   //----> Store the new pizza in the client pizza-store.
   pizzaStore.addPizza(newPizza);
   console.log({ newPizza });
 
-  navigateTo("/pizzas"); */
+  navigateTo("/pizzas"); 
 };
 </script>

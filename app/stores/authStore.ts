@@ -11,6 +11,7 @@ export const useAuthStore = defineStore("auth", () => {
     const stateOfAuth = getLocalAuth();
 
     if (!!stateOfAuth) {
+      console.log("In the constructor, stateOfAuth : ", stateOfAuth)
       authState.value = { ...stateOfAuth };
     }
   });
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore("auth", () => {
   const isAdmin = computed(() => authState.value?.isAdmin);
   const currentUser = computed(() => authState.value?.user);
   const token = computed(() => authState.value?.token);
-
+  const userId = computed(() => authState.value?.user?.id)
   //----> Actions
   const login = (authStateRes: AuthState) => {
     updateAuthState(authStateRes);
@@ -29,6 +30,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const loginWithoutAuth = (authResponse: AuthResponseModel) => {
+      console.log("Point 1, In-login of auth-store, authRes : ", authResponse)
       setAuthState(authResponse);
       setLocalAuth(authState.value);
   }
@@ -40,6 +42,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const setAuthState = (authResponse: AuthResponseModel) => {
+    console.log("Point 2, In-login of auth-store, authRes : ", authResponse)
     authState.value = {user: authResponse.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn), token: authResponse.token}
   }
 
@@ -48,6 +51,8 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const setLocalAuth = (authState: AuthState) => {
+    
+    console.log("In set-local, authState : ", authState)
     localStorage.setItem("auth", JSON.stringify(authState));
   };
 
@@ -68,5 +73,6 @@ export const useAuthStore = defineStore("auth", () => {
     loginWithoutAuth,
     logout,
     getLocalAuth,
+    userId
   };
 });

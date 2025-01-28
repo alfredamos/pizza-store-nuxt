@@ -102,7 +102,7 @@ export class AuthDb {
     const token = this.getJsonToken(user.id, user.name, user.role);
 
     const { password: userPassword, role, ...restOfData } = user;
-
+  
     const authResponse: AuthResponseModel = {
       user: restOfData as UserResponseModel,
       token,
