@@ -11,4 +11,5 @@ export class OrderPayload {
   isShipped?: boolean = false;
   totalQuantity: number = 0;
   orderDate: Date = new Date();
+  status: any;
 }

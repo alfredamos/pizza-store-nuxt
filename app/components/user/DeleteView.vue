@@ -2,7 +2,7 @@
   <UserDeleteDialog
     v-if="isDeleteUser"
     :isDelete="isDeleteUser"
-    :user="user"
+    :user="user!"
     @onBackToList="backToList"
     @onDelete="deleteUser"
   /> 
@@ -33,16 +33,16 @@
 
 <script lang="ts" setup>
 import { userBaseUrl } from '~~/constants/userBaseUrl';
-import {UserPayload as User } from '~~/models/users/userPayload.model';
+import { UserPayload as User } from '~~/models/users/userPayload.model';
 
-const props = defineProps({ 
-  id: String,
+const props = defineProps<{ 
+  id: string,
   user: User 
-});
+}>();
 
 const url = `${userBaseUrl}/${props?.id}/delete`
 
-const {sentDataToDb} = useSentDataToDb<User>(url, 'delete');
+const {fetchApp} = useFetchApp('DELETE')
 
 console.log("In user-edit-dialog, id : ", props?.id);
 const isDeleteUser = ref(false);
@@ -71,9 +71,10 @@ const deleteUser = async () => {
   console.log("user info deleted : ", props?.id);
 
   const user = props?.user as User;
-  user.id = props?.id ?? ""
+  const id = props?.id ?? "";
+  user.id = id
 
-  await sentDataToDb(user);
+  await fetchApp(url, {} as User)
 
   emit('onDelete', props?.id);
 

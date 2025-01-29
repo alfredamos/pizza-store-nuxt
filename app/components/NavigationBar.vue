@@ -59,15 +59,15 @@
           <template v-if="isAdmin">
             <li><NuxtLink to="/orders">All Orders</NuxtLink></li>
             <li>
-              <NuxtLink to="/orders/orders-delivered"
+              <NuxtLink to="/orders/delivered"
                 >Delivered Orders</NuxtLink
               >
             </li>
             <li>
-              <NuxtLink to="/orders/orders-pending">Pending Orders</NuxtLink>
+              <NuxtLink to="/orders/pending">Pending Orders</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/orders/orders-shipped">Shipped Orders</NuxtLink>
+              <NuxtLink to="/orders/shipped">Shipped Orders</NuxtLink>
             </li>
             <li><NuxtLink to="/pizzas/list">Pizzas</NuxtLink></li>
             <li><NuxtLink to="/users">Users</NuxtLink></li>
@@ -75,9 +75,9 @@
 
           <template v-if="!!isLoggedIn">
             <li>
-              <NuxtLink to="/orders/orders-by-user-id">My Orders</NuxtLink>
+              <NuxtLink to="/orders/by-user-id">My Orders</NuxtLink>
             </li>
-            <li><NuxtLink @onclick="logout" to="">Logout</NuxtLink></li>
+            <li><NuxtLink to="/logout">Logout</NuxtLink></li>
           </template>
 
           <template v-if="!isLoggedIn">
@@ -99,9 +99,6 @@ const firstName = computed(() => currentUser.value?.name?.split(" ")[0] ?? "");
 
 const open = ref(true);
 
-const logout = () => {
-  authStore.logout()
-}
 
 const onOpenDropdown = () => {
   console.log("In-navbar!!!");

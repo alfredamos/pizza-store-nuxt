@@ -12,7 +12,6 @@ export const getAllUsersAction = async () => {
   //----> Get all users from the database.
   const users = await UserDb.getAllUsers();
   //----> Send back the response.
-  //revalidatePath("/users/list");
   return users;
 };
 

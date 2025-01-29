@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { UserPayload as User } from '~~/models/users/userPayload.model';
+import {UserPayload as User } from '~~/models/users/userPayload.model';
 
 const emit = defineEmits(['onBackToList']);
 const props = defineProps<{isView: boolean; user: User}>();

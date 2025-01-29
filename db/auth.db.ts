@@ -65,7 +65,7 @@ export class AuthDb {
     const user = await this.getUserByEmail(email);
 
     //----> Compare the new password with old password.
-    const isMatch = await this.comparePassword(password, user);
+    await this.comparePassword(password, user);
 
     //----> Store the updated user in the database.
     const updatedUser = await prisma.user.update({
@@ -109,8 +109,6 @@ export class AuthDb {
       isLoggedIn: true,
       isAdmin: user?.role === Role.Admin,
     };
-
-    console.log("In-auth-db",{authResponse})
 
     return authResponse;
   }
