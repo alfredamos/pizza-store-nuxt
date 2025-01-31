@@ -69,21 +69,20 @@ const searchTerm = ref("");
 
 const url = `${userBaseUrl}`;
 
-const {getResource} = useGetResource<User[]>(url, 'get')
-
 const userStore = useUserStore();
-const { users } = storeToRefs(userStore);
 
 const filteredUsers = ref<User[]>([]);
+
+const {data: users} = await useFetch<User[]>(url);
 
 onMounted(() => {
   loadUser();
 });
 
 const loadUser = async () => {
-  const { data: users } = await getResource();
-  userStore.editAllUsers(users);
-  filteredUsers.value = [...users];
+  //const { data: users } = await getResource();
+  userStore.editAllUsers(users.value!);
+  filteredUsers.value = [...users.value!];
   console.log("in on-mounted, users : ", users);
 };
 
@@ -93,13 +92,13 @@ const submitSearch = async () => {
       user.name.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
       user.phone.toLowerCase().includes(searchTerm.value?.toLowerCase())
-  );
+  )!;
 
   filteredUsers.value = [...searchedUsers];
 };
 
 const deleteUser = (userId: string) => {
-  filteredUsers.value = users.value?.filter((user) => user.id !== userId);
+  filteredUsers.value = users.value?.filter((user) => user.id !== userId)!;
 
   userStore.deleteUser(userId);
 };
