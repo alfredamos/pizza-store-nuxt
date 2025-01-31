@@ -1,6 +1,7 @@
 import { AuthState } from "~~/states/authState";
 import {defineStore} from "pinia"
 import type { AuthResponseModel } from "~~/models/auth/authResponse.model";
+import type { UserResponseModel } from "~~/models/users/userResponse.model";
 
 export const useAuthStore = defineStore("auth", () => {
   //----> State
@@ -42,6 +43,10 @@ export const useAuthStore = defineStore("auth", () => {
     authState.value = {user: authResponse.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn), token: authResponse.token}
   }
 
+  const updateUserInfo = (userInfo: UserResponseModel) => {
+    authState.value = {...authState.value, user: userInfo}
+  }
+
   const updateAuthState = (authStateNew: AuthState) => {
     authState.value = { ...authStateNew };
   };
@@ -67,6 +72,7 @@ export const useAuthStore = defineStore("auth", () => {
     loginWithoutAuth,
     logout,
     getLocalAuth,
+    updateUserInfo,
     userId
   };
 });

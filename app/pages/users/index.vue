@@ -80,7 +80,6 @@ onMounted(() => {
 });
 
 const loadUser = async () => {
-  //const { data: users } = await getResource();
   userStore.editAllUsers(users.value!);
   filteredUsers.value = [...users.value!];
   console.log("in on-mounted, users : ", users);

@@ -42,9 +42,9 @@ export class AuthDb {
       where: { email },
     });
 
-    const { role, password, ...rest } = updatedUser;
+    const { role, password, ...restOfData } = updatedUser;
 
-    return rest;
+    return restOfData;
   }
 
   async currentUser(id: string) {

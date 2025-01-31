@@ -1,28 +1,33 @@
 <template>
  <FormChangePassword
  @on-back-to-list="backToList"
- @on-submit-form="submitForm"
+ @on-submit-form="submitChangePasswordForm"
  :current-user="currentUser"
  />
 </template>
 
 <script lang="ts" setup>
+import { authBaseUrl } from '~~/constants/authBaseUrl';
+import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 import type { ChangePasswordModel } from '~~/models/auth/changePassword.model';
 
+const url = `${authBaseUrl}/change-password`;
 
-const authStore = useAuthStore();
-const currentUser = authStore.currentUser;
+const {currentUser} = useAuthStore()
+const {sentDataToDb} = useForwardDataToDb<ChangePasswordModel,AuthResponseModel>(url, 'patch');
 
-const router = useRouter();
+  const router = useRouter()
 
-const backToList = () => {
-  router.back()
-}
+  const backToList = () => {
+    router.back();
+  }
 
-const submitForm = async(changePasswordModel: ChangePasswordModel) => {
- 
+  const submitChangePasswordForm = async (changePasswordModel: ChangePasswordModel) => {
+    console.log("change-password : ", changePasswordModel);
 
-  // router.push("/");
-}
+    await sentDataToDb(changePasswordModel);
+
+    router.push("/")
+  }
 
 </script>
