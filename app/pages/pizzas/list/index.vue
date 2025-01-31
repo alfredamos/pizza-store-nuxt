@@ -78,7 +78,6 @@ import { pizzaBaseUrl } from '~~/constants/pizzaBaseUrl';
 const searchTerm = ref("");
 
 const pizzaStore = usePizzaStore();
-const { pizzas } = storeToRefs(pizzaStore);
 
 const filteredPizzas = ref<Pizza[]>([]);
 
@@ -87,12 +86,11 @@ onMounted(() => {
 });
 
 const url = `${pizzaBaseUrl}`
-const {getResource} = await useGetResource<Pizza[]>(url, 'get');
+const {data: pizzas} = await useFetch<Pizza[]>(url);
 
 const loadPizza = async () => {
-  const { data: pizzas } = await getResource();;
-  pizzaStore.editAllPizzas(pizzas);
-  filteredPizzas.value = [...pizzas];
+  pizzaStore.editAllPizzas(pizzas.value!);
+  filteredPizzas.value = [...pizzas.value!];
   console.log("in on-mounted, pizzas : ", pizzas);
 };
 
@@ -104,13 +102,13 @@ const submitSearch = async () => {
         .toLowerCase()
         .includes(searchTerm.value?.toLowerCase()) ||
       pizza.topping.toLowerCase().includes(searchTerm.value?.toLowerCase())
-  );
+  )!;
 
   filteredPizzas.value = [...searchedPizzas];
 };
 
 const deletePizza = (pizzaId: string) => {
-  filteredPizzas.value = pizzas.value?.filter((pizza) => pizza.id !== pizzaId);
+  filteredPizzas.value = pizzas.value?.filter((pizza) => pizza.id !== pizzaId)!;
 
   pizzaStore.deletePizza(pizzaId);
 };
@@ -118,7 +116,7 @@ const deletePizza = (pizzaId: string) => {
 const editPizza = (updatedPizza: Pizza) => {
   filteredPizzas.value = pizzas.value?.map((pizza) =>
     pizza.id === updatedPizza.id ? updatedPizza : pizza
-  );
+  )!;
 
   pizzaStore.editPizza(updatedPizza);
 };

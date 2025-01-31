@@ -1,74 +1,24 @@
 <template>
-  <div
-    v-if="!orders.length"
-    class="flex justify-center items-center mx-auto my-auto bg-white text-black max-w-lg px-12 py-40 rounded-lg shadow-lg mt-24"
+  <OrdersTable
+  :orders="allOrders!"
+  :show-action-buttons="false"
+  :show-buttons="false"
   >
-    <h1 class="text-3xl">There are no orders to display!</h1>
-  </div>
-  <div
-    class="overflow-x-auto bg-white m-6 shadow-inner rounded mx-4 p-3"
-    v-else
-  >
-    <table class="table table-zebra border-1 border-gray-200 p-3">
-      <thead class="text-gray-200 text-xl bg-gray-500">
-        <tr class="">
-          <th>Order No.</th>
-          <th>Items</th>
-          <th>Price</th>
-          <th>Quantities</th>
-          <th>Date Order</th>
-          <th>Status</th>
-          <th>Order By</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          class="text-base text-black"
-          v-for="order in orders"
-          :key="order.id"
-        >
-          <td>{{ order.id }}</td>
-          <td>
-            <ul v-for="item in order?.cartItems" :key="item.id">
-              <li>
-                <p>{{ item.name }}</p>
-              </li>
-            </ul>
-          </td>
-
-          <td>{{ order.totalPrice }}</td>
-          <td>{{ order.totalQuantity }}</td>
-          <td>{{ order.orderDate }}</td>
-          <td>{{ order.status }}</td>
-          <td>{{ order.user?.name }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="flex justify-around w-full font-bold">
+    <NuxtLink to="/orders/delivered" class="flex 1 text-green-900">Delivered Orders</NuxtLink>
+    <NuxtLink to="/orders/shipped" class="flex 1 text-yellow-700">Shipped Orders</NuxtLink>
+    <NuxtLink to="/orders/pending" class="flex 1 text-red-900">Pending Orders</NuxtLink>
+    </div>
+  </OrdersTable>
 </template>
 
 <script lang="ts" setup>
 import { orderBaseUrl } from '~~/constants/orderBaseUrl';
-import type { OrderPayload } from '~~/models/orders/orderPayload.model';
+import type { OrderModel } from '~~/models/orders/orderModel.model';
 
-const url = `${orderBaseUrl}`;
+const url = `${orderBaseUrl}` 
 
-const {getResource} = useGetResource<OrderPayload[]>(url, 'GET');
+const {data: allOrders} = await useFetch<OrderModel[]>(url);
 
-const orderStore = useOrderStore();
-
-const { orders } = storeToRefs(orderStore);
-
-onMounted(() => {
-  loadOrder();
-});
-
-const loadOrder = async () => {
-  const {data: orders} = await getResource();
-
-  console.log({ orders: orders });
-
-  orderStore.editAllOrders(orders);
-};
 </script>
 

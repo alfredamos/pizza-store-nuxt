@@ -87,6 +87,7 @@ enum Status {
   Delivered
   Pending
   Shipped
+  All
 }
 
 enum Gender {

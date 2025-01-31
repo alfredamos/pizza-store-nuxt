@@ -58,7 +58,7 @@ const isViewPizza = ref(false);
 const refresh = ref(false);
 
 const urlEdit = `${pizzaBaseUrl}/${props?.id}/edit`
-const urlDelete = `${pizzaBaseUrl}/${props?.id}/delete`
+const urlDelete = `${pizzaBaseUrl}/${props?.id}/remove`
 
 const emit = defineEmits(['onEdit', 'onDelete']);
 
