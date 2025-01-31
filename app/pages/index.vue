@@ -48,9 +48,8 @@ const { cartItems, isAddToCart } = storeToRefs(cartItemStore);
 const cartUtilStore = useCartUtilStore()
 
 const pizzaStore = usePizzaStore();
-const { pizzas } = storeToRefs(pizzaStore);
 
-const {getResource} = useGetResource<Pizza[]>(url, 'get');
+const {data: pizzas} = await useFetch<Pizza[]>(url)
 
 const router = useRouter();
 
@@ -59,8 +58,7 @@ onMounted(() => {
 });
 
 const loadPizza = async () => {
-  const { data: pizzas } = await getResource();
-  pizzaStore.editAllPizzas(pizzas);
+  pizzaStore.editAllPizzas(pizzas.value!);
 };
 
 const addToCart = (pizza: Pizza) => {
@@ -68,10 +66,6 @@ const addToCart = (pizza: Pizza) => {
   cartItemStore.changeIsAddToCart(true);
 
   cartUtilStore.makeCartItems(pizza, cartItems.value);
-};
-
-const backToList = () => {
-  cartItemStore.changeIsAddToCart(false);
 };
 
 const toCart = (carts: CartItem[]) => {
@@ -88,6 +82,5 @@ const toCart = (carts: CartItem[]) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
 
 
