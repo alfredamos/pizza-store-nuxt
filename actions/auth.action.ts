@@ -1,5 +1,3 @@
-//import { signIn, signOut } from "next-auth/react";
-import { sign } from "crypto";
 import { authDb } from "~~/db/auth.db";
 import type { ChangePasswordModel } from "~~/models/auth/changePassword.model";
 import type { EditProfileModel } from "~~/models/auth/editProfile.model";
@@ -49,20 +47,22 @@ export async function loginWithoutAuthAction(loginModel: LoginModel){
 }
 
 export async function loginAction(loginModel: LoginModel) {
+  const {signIn} = useAuth();
   //----> Get the user credentials from the request.
   const loginCredentials = loginModel;
   //----> Destructure formData.
   const { email, password } = loginCredentials;
   //----> Login the user in.
-  /* return await signIn("credentials", {
+   return await signIn("credentials", {
     email,
     password,
     redirect: false,
-  }); */
+  });  
 }
 
 export async function logoutAction() {
-  //await signOut({ redirect: true });
+  const {signOut} = useAuth()
+  await signOut({ redirect: true });
 }
 
 export async function signupAction(signupModel: SignupModel) {

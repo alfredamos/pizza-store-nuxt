@@ -10,15 +10,19 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-   // "@sidebase/nuxt-auth"
+   "@sidebase/nuxt-auth"
   ],
- /*  authJs:{
-
-  } */
-  /* supabase: {
-    url: process.env.DATABASE_URL,
-    //serviceKey: process.env.SUPABASE_SERVICE_KEY,
-    key: process.env.SUPABASE_ANON_KEY
-  }, */
+  auth: {
+    globalAppMiddleware: true,
+    isEnabled: true,
+    disableServerSideAuth: false,
+    originEnvKey: 'AUTH_ORIGIN',
+    baseURL: 'http://localhost:3000/api/auth',
+    sessionRefresh: {
+      enablePeriodically: true,
+      enableOnWindowFocus: true,
+    }
+  }
+ 
   
 });

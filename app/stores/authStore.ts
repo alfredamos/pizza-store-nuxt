@@ -72,7 +72,7 @@ export const useAuthStore = defineStore("auth", () => {
     loginWithoutAuth,
     logout,
     getLocalAuth,
-    updateUserInfo,
+     updateUserInfo,
     userId
   };
 });

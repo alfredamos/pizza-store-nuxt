@@ -10,6 +10,9 @@ import { authBaseUrl } from '~~/constants/authBaseUrl';
 import { LoginModel } from '~~/models/auth/login.model';
 import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 
+definePageMeta({
+  auth: false,
+})
 const url = `${authBaseUrl}/login`;
 
 const authStore = useAuthStore();

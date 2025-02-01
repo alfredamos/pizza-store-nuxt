@@ -2,7 +2,7 @@
   <OrdersTable
   :orders="orders!"
   :show-action-buttons="false"
-  :show-buttons="true"
+  :show-buttons="false"
   >
   <div class="flex justify-around w-full font-bold">
     <NuxtLink to="/orders" class="flex 1 text-indigo-900">All Orders</NuxtLink>
