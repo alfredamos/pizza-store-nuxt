@@ -5,12 +5,13 @@
 </template>
 
 <script setup lang="ts">
-
+const {signOut} = useAuth()
 const authStore = useAuthStore()
- onMounted(() => {
+ onMounted(async() => {
    console.log("In onMounted of logout")
-  authStore.logout()
-  navigateTo("/");
+   await signOut({ redirect: false });
+    authStore.logout()
+    navigateTo("/");
  })
 
 </script>

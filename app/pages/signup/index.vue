@@ -17,14 +17,6 @@ const submitForm = async (signupModel: SignupModel) => {
   console.log("signupModel : ", signupModel);
 
    const {data: response} = await sentDataToDb(signupModel);
-  /* const response = await $fetch(`${authBaseUrl}/signup`, {
-      method: 'post',
-      headers: {
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify(signupModel)
-    }) */
-  
 
   console.log({signupResponse: response})
 

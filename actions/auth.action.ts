@@ -6,7 +6,6 @@ import type { SignupModel } from "~~/models/auth/signup.model";
 import type { UserInfoModel } from "~~/models/users/userInfo.model";
 import type { UserRoleChangeModel } from "~~/models/users/userRoleChange.model";
 
-
 export async function changePasswordAction(changePasswordModel: ChangePasswordModel) {
   //----> Get the payload.
   const { email, confirmPassword, oldPassword, newPassword } =
@@ -47,25 +46,26 @@ export async function loginWithoutAuthAction(loginModel: LoginModel){
 }
 
 export async function loginAction(loginModel: LoginModel) {
-  const {signIn} = useAuth();
+  //const {signIn} = useAuth();
   //----> Get the user credentials from the request.
   const loginCredentials = loginModel;
   //----> Destructure formData.
   const { email, password } = loginCredentials;
-  //----> Login the user in.
+  /* //----> Login the user in.
    return await signIn("credentials", {
     email,
     password,
     redirect: false,
-  });  
+  }); */  
 }
 
 export async function logoutAction() {
-  const {signOut} = useAuth()
-  await signOut({ redirect: true });
+  //const {signOut} = useAuth()
+  //await signOut({ redirect: true });
 }
 
 export async function signupAction(signupModel: SignupModel) {
+  
   //----> Get the user credentials from the request.
    const {
     address,

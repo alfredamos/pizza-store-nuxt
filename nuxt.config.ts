@@ -1,4 +1,3 @@
-import { resolve } from "node:path"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -10,19 +9,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-   "@sidebase/nuxt-auth"
+    "nuxt-auth-utils"
   ],
-  auth: {
-    globalAppMiddleware: true,
-    isEnabled: true,
-    disableServerSideAuth: false,
-    originEnvKey: 'AUTH_ORIGIN',
-    baseURL: 'http://localhost:3000/api/auth',
-    sessionRefresh: {
-      enablePeriodically: true,
-      enableOnWindowFocus: true,
-    }
-  }
+   
  
-  
 });

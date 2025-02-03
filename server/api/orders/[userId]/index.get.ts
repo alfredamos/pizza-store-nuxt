@@ -1,7 +1,8 @@
 import { getAllOrdersByUserId } from "~~/actions/order.action"
 
 export default defineEventHandler(async(event) => {
-  const userId = event.context.params?.userId as string;
+  
+  const userId = getRouterParam(event, 'userId')!;
   const response = await getAllOrdersByUserId(userId);
 
   return response;

@@ -11,6 +11,10 @@ import { authBaseUrl } from '~~/constants/authBaseUrl';
 import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 import type { ChangePasswordModel } from '~~/models/auth/changePassword.model';
 
+definePageMeta({
+  auth: true
+})
+
 const url = `${authBaseUrl}/change-password`;
 
 const {currentUser} = useAuthStore()

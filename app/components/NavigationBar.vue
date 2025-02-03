@@ -91,6 +91,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { AuthState } from '~~/states/authState';
+import { UserResponseModel } from '~~/models/users/userResponse.model';
+import { Role} from '@prisma/client';
+
 const authStore = useAuthStore();
 const { isAdmin, isLoggedIn, currentUser } = storeToRefs(authStore);
 const { totalQuantity } = storeToRefs(useCartItemStore());
@@ -100,11 +104,14 @@ const firstName = computed(() => currentUser.value?.name?.split(" ")[0] ?? "");
 const open = ref(true);
 
 
+
+
 const onOpenDropdown = () => {
   console.log("In-navbar!!!");
   open.value = !open.value;
 
   console.log("open : ", open.value);
+
 };
 </script>
 

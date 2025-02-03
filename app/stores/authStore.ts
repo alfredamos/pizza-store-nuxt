@@ -51,6 +51,8 @@ export const useAuthStore = defineStore("auth", () => {
     authState.value = { ...authStateNew };
   };
 
+
+
   const setLocalAuth = (authState: AuthState) => {
     localStorage.setItem("auth", JSON.stringify(authState));
   };
@@ -73,6 +75,7 @@ export const useAuthStore = defineStore("auth", () => {
     logout,
     getLocalAuth,
      updateUserInfo,
+     updateAuthState,
     userId
   };
 });
