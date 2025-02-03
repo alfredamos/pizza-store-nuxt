@@ -11,6 +11,10 @@
 import { orderBaseUrl } from "~~/constants/orderBaseUrl";
 import type { OrderModel } from "~~/models/orders/orderModel.model";
 
+definePageMeta({
+  middleware: ["authenticated"]
+})
+
 const authStore = useAuthStore();
 const { currentUser } = storeToRefs(authStore);
 const userId = currentUser.value?.id as string;

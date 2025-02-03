@@ -128,9 +128,19 @@ export class AuthDb {
       data: { ...rest, password: hashNewPassword, email },
     });
 
-    const { password: userPassword, ...restOfData } = newUser;
+    //----> Get json web token.
+    const token = this.getJsonToken(user.id, user.name, user.role);
 
-    return restOfData;
+    const { password: userPassword, role, ...restOfData } = user;
+  
+    const authResponse: AuthResponseModel = {
+      user: restOfData as UserResponseModel,
+      token,
+      isLoggedIn: true,
+      isAdmin: newUser?.role === Role.Admin,
+    };
+
+    return authResponse;
   }
 
   async updateUserRole(userInfo: UserInfoModel, email: string, role: Role) {
@@ -218,7 +228,6 @@ export class AuthDb {
 
   private async passwordHarsher(newPassword: string) {
     //----> Hash the new password.
-    console.log("newPassword : ", newPassword);
     return bcrypt.hash(newPassword, 12);
   }
 

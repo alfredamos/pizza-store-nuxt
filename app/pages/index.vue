@@ -40,9 +40,6 @@ import { pizzaBaseUrl } from '~~/constants/pizzaBaseUrl';
 import type { CartItem } from '~~/models/cartItems/cartItem.model';
 import type { Pizza } from '~~/models/pizzas/pizza.model';
 
-definePageMeta({
-  auth: false,
-})
 
 const url = `${pizzaBaseUrl}`;
 

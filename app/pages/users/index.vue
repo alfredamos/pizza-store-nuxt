@@ -65,6 +65,10 @@
 import { userBaseUrl } from '~~/constants/userBaseUrl';
 import { UserPayload as User } from '~~/models/users/userPayload.model';
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
+
 const searchTerm = ref("");
 
 const url = `${userBaseUrl}`;

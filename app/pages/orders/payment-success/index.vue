@@ -22,6 +22,9 @@
 </template>
 
 <script lang="ts" setup>
+definePageMeta({
+  middleware: ["authenticated"]
+})
 
 const cartItemStore = useCartItemStore();
 const router = useRouter();

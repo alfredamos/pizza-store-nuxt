@@ -57,9 +57,11 @@
 </template>
 
 <script lang="ts" setup>
-import { environment } from '~~/environments/environment.dev';
 import type { CartItem } from '~~/models/cartItems/cartItem.model';
 
+definePageMeta({
+  middleware: ["authenticated"]
+})
 
 //---> stores
 const cartItemStore = useCartItemStore();
@@ -70,7 +72,7 @@ const { cartItems: carts } = storeToRefs(cartItemStore);
 const makePayment = () => {
   //----> Items sent to checkout
   cartItemStore.editAllCatItems(carts.value);
-  const stripePaymentUrl = `${environment.apiUrl}/stripe/checkout`
+ // const stripePaymentUrl = `${environment.apiUrl}/stripe/checkout`
   router.push("/orders/payment-view");
 };
 

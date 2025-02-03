@@ -18,6 +18,9 @@ import { Status } from '@prisma/client';
 import { orderBaseUrl } from '~~/constants/orderBaseUrl';
 import type { OrderModel } from '~~/models/orders/orderModel.model';
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
 
 const {fetchApp: fetchAppPatch} = useFetchApp<OrderModel>('PATCH');
 

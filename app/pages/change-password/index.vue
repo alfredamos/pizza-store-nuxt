@@ -12,7 +12,7 @@ import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 import type { ChangePasswordModel } from '~~/models/auth/changePassword.model';
 
 definePageMeta({
-  auth: true
+  middleware: ["authenticated"]
 })
 
 const url = `${authBaseUrl}/change-password`;

@@ -16,6 +16,10 @@
 <script lang="ts" setup>
 import { Status } from '@prisma/client';
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
+
 const orderStore = useOrderStore();
 
 const {orders} = await orderStore.getOrdersFromDb(Status.Delivered);

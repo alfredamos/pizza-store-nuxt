@@ -8,9 +8,12 @@
 
 <script lang="ts" setup>
 import { authBaseUrl } from '~~/constants/authBaseUrl';
-import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 import type { EditProfileModel } from '~~/models/auth/editProfile.model';
 import type { UserResponseModel } from '~~/models/users/userResponse.model';
+
+definePageMeta({
+  middleware: ["authenticated"]
+})
 
 const url = `${authBaseUrl}/edit-profile`;
 

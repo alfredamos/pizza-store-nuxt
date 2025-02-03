@@ -91,6 +91,10 @@
 import { FaArrowLeft, FaMinus, FaPlus, FaTrash } from "vue3-icons/fa";
 import type { CartItem } from "~~/models/cartItems/cartItem.model";
 
+definePageMeta({
+  middleware: ["authenticated"]
+})
+
 const cartUtilStore = useCartUtilStore();
 
 const cartItemStore = useCartItemStore();

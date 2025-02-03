@@ -75,6 +75,10 @@ import type { Pizza } from '@prisma/client';
 import { pizzaBaseUrl } from '~~/constants/pizzaBaseUrl';
 
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
+
 const searchTerm = ref("");
 
 const pizzaStore = usePizzaStore();

@@ -91,9 +91,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { AuthState } from '~~/states/authState';
-import { UserResponseModel } from '~~/models/users/userResponse.model';
-import { Role} from '@prisma/client';
 
 const authStore = useAuthStore();
 const { isAdmin, isLoggedIn, currentUser } = storeToRefs(authStore);

@@ -16,6 +16,10 @@
 import { orderBaseUrl } from '~~/constants/orderBaseUrl';
 import type { OrderModel } from '~~/models/orders/orderModel.model';
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
+
 const url = `${orderBaseUrl}` 
 
 const {data: allOrders} = await useFetch<OrderModel[]>(url);

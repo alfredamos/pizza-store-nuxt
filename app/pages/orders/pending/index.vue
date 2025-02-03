@@ -21,6 +21,10 @@ import type { OrderModel } from '~~/models/orders/orderModel.model';
 import type { OrderPayload } from '~~/models/orders/orderPayload.model';
 //import { OrdersTable } from '#components';
 
+definePageMeta({
+  middleware: ["authenticated", "admin"]
+})
+
 const {fetchApp: fetchAppPatch} = useFetchApp<OrderPayload>('PATCH');
 const  {fetchApp: fetchAppDelete} = useFetchApp<OrderPayload>('delete');
 

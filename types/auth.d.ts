@@ -3,13 +3,18 @@ import { Role, User } from "@prisma/client";
 // auth.d.ts
 declare module '#auth-utils' {
   interface User {
-    // Add your own fields
+    id: string;
+    address: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: Role;
   }
 
   interface UserSession {
     // Add your own fields
      user: User & { id: string; role: Role };
-        token: { id: string; role: Role };
+        token: { id: string; role: Role, name: string };
   }
 
   interface SecureSessionData {

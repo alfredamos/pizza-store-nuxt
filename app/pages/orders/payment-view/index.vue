@@ -56,6 +56,10 @@
 import type { CartItem } from '~~/models/cartItems/cartItem.model';
 import { useStripeStore } from '~/stores/stripeStore';
 
+definePageMeta({
+  middleware: ["authenticated"]
+})
+
 const stripeStore = useStripeStore();
 const authStore = useAuthStore();
 const cartItemStore = useCartItemStore();
