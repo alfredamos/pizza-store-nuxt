@@ -7,12 +7,15 @@ try{
   const body = await readBody<LoginModel>(event);
 
   const response = await loginWithoutAuthAction(body);
-
+  console.log({response})
+    const userSession = {...response.user};
+    //console.log("In post-login, userSession : ", userSession)
+    const loggedInTime = new Date();
     await setUserSession(event, {
-        user: response,
-        loggedInAt: new Date(),
+        user: userSession,
+        loggedInAt: loggedInTime,
         token: {
-          id: response?.user.id,
+          id: response?.user?.id,
           name: response?.user?.name,
           role: response?.user?.role
         }

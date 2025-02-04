@@ -7,15 +7,19 @@ export default defineEventHandler(async(event) => {
     const body = await readBody(event);
   console.log("signup-in-server : ", body)
   const response = await signupAction(body) ;
-  await setUserSession(event, {
-    user: response,
-    loggedInAt: new Date(),
-    token: {
-      id: response?.user.id,
-      name: response?.user?.name,
-      role: response?.user?.role
-    }
-  });
+  
+  const userSession = {...response.user};
+    console.log("In post-login, userSession : ", userSession)
+    const loggedInTime = new Date();
+    await setUserSession(event, {
+        user: userSession,
+        loggedInAt: loggedInTime,
+        token: {
+          id: response?.user?.id,
+          name: response?.user?.name,
+          role: response?.user?.role
+        }
+      });
 
   return response;
   } catch (error: any) {

@@ -1,6 +1,6 @@
 <template>
   <OrdersTable
-  :orders="orders!"
+  :orders="orders ?? []"
   :show-action-buttons="false"
   :show-buttons="false"
   >
@@ -16,10 +16,9 @@ definePageMeta({
 })
 
 const authStore = useAuthStore();
-const { currentUser } = storeToRefs(authStore);
-const userId = currentUser.value?.id as string;
+const { userId} = storeToRefs(authStore);
 
-const url = `${orderBaseUrl}/${userId}`
+const url = `${orderBaseUrl}/${userId.value}`
 
 const {data: orders} = await useFetch<OrderModel[]>(url);
 </script>

@@ -1,5 +1,6 @@
 <template>
   <FormLogin
+    :error-message="errorMessage"
     @on-back-to-list="backToList"
     @on-submit-form="submitLoginForm"
   />
@@ -11,10 +12,14 @@ import { LoginModel } from '~~/models/auth/login.model';
 import { AuthResponseModel } from '~~/models/auth/authResponse.model';
 import { loginSchema } from '~~/validations/auth.validation';
 
+const errorMessage = ref("");
+
+const {fetch: refreshSession} = useUserSession()
+
 const url = `${authBaseUrl}/login`;
 
 const authStore = useAuthStore();
-const {sentDataToDb} = useForwardDataToDb<LoginModel, AuthResponseModel>(url, 'post');
+
 const {validateDataSchema} = useValidateInputData()
 
   const router = useRouter()
@@ -25,11 +30,23 @@ const {validateDataSchema} = useValidateInputData()
 
   const submitLoginForm = async (loginModel: LoginModel) => {
     console.log("loginModel : ", loginModel);
-    const {data} = validateDataSchema(loginSchema, loginModel);
-    const {data: authResponse} = await sentDataToDb(loginModel);
+    const {data: loginDataInput} = validateDataSchema(loginSchema, loginModel);
+    
+    $fetch<AuthResponseModel>(url, {
+    method: 'POST',
+    body: loginDataInput
+  })
+  .then(async (data) => {
+    authStore.loginWithoutAuth(data);
+    // Refresh the session on client-side and redirect to the home page
+    await refreshSession();
+    await navigateTo('/');
+  })
+  .catch((error: any) => {
+    errorMessage.value = error?.message;
+  }); 
     //----> Login the user in.
-    console.log("In login page, response : ", authResponse)
-    authStore.loginWithoutAuth(authResponse);
+    
     
     router.push("/")
   }

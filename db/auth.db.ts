@@ -101,7 +101,7 @@ export class AuthDb {
     //----> Get json web token.
     const token = this.getJsonToken(user.id, user.name, user.role);
 
-    const { password: userPassword, role, ...restOfData } = user;
+    const { password: userPassword, ...restOfData } = user;
   
     const authResponse: AuthResponseModel = {
       user: restOfData as UserResponseModel,
@@ -129,9 +129,9 @@ export class AuthDb {
     });
 
     //----> Get json web token.
-    const token = this.getJsonToken(user.id, user.name, user.role);
+    const token = this.getJsonToken(newUser.id, newUser.name, newUser.role);
 
-    const { password: userPassword, role, ...restOfData } = user;
+    const { password: userPassword, ...restOfData } = newUser;
   
     const authResponse: AuthResponseModel = {
       user: restOfData as UserResponseModel,

@@ -129,6 +129,7 @@
         Cancel
       </button>
     </div>
+    <div class="mt-4 mb-4" v-if="props?.errorMessage">{{ props?.errorMessage }}</div>
     <div class="text-muted">
     <NuxtLink to="/login"><span class="mr-2">You have an account?</span><span class="text-indigo-900">Please login</span></NuxtLink>
    </div> 
@@ -141,6 +142,9 @@ import { SignupModel } from "../../../models/auth/signup.model";
 
 const signupForm = ref<SignupModel>({ ...new SignupModel() });
 
+const props = defineProps({
+  errorMessage: String
+})
 const emit = defineEmits(["onBackToList", "onSubmitForm"]);
 
 const backToList = () => {

@@ -6,7 +6,10 @@ export default defineEventHandler(async(event) => {
   //----> Check for admin privilege
       const { user } = await requireUserSession(event)
       
-      if (Boolean(user?.role === Role.Admin)){
+      const isAdmin = user?.role === Role.Admin
+      
+      console.log("In admin-middleware, isAdmin: ", isAdmin)
+      if (!isAdmin){
         return createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"})
       }
     

@@ -1,6 +1,6 @@
 <template>
   <OrdersTable
-  :orders="orders!"
+  :orders="orders ?? []"
   :show-action-buttons="false"
   :show-buttons="false"
   >
