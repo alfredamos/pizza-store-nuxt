@@ -7,9 +7,9 @@ try{
   const body = await readBody<LoginModel>(event);
 
   const response = await loginWithoutAuthAction(body);
-  console.log({response})
-    const userSession = {...response.user};
-    //console.log("In post-login, userSession : ", userSession)
+    
+  const userSession = {...response.user};
+    
     const loggedInTime = new Date();
     await setUserSession(event, {
         user: userSession,
@@ -27,6 +27,6 @@ try{
         return createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: error.message})
       }
       
- 
+
   
 })

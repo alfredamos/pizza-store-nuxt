@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   //----> For authentication
     const { user } = await requireUserSession(event)
     
-    if (!!user){
+    if (!user){
       return createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials"})
     }
   

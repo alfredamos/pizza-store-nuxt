@@ -17,9 +17,9 @@ definePageMeta({
 
 const authStore = useAuthStore();
 const { userId} = storeToRefs(authStore);
-
+console.log("in-my-orders",{userId: userId.value})
 const url = `${orderBaseUrl}/${userId.value}`
-
+console.log("in-my-order, url : ", url)
 const {data: orders} = await useFetch<OrderModel[]>(url);
 </script>
 

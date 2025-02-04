@@ -1,15 +1,15 @@
 import { signupAction } from "~~/actions/auth.action";
 import { StatusCodes } from "http-status-codes";
-//import {HttpError} from "http-error"
+
 
 export default defineEventHandler(async(event) => {
   try {
     const body = await readBody(event);
-  console.log("signup-in-server : ", body)
-  const response = await signupAction(body) ;
   
-  const userSession = {...response.user};
-    console.log("In post-login, userSession : ", userSession)
+    const response = await signupAction(body) ;
+  
+    const userSession = {...response.user};
+    
     const loggedInTime = new Date();
     await setUserSession(event, {
         user: userSession,

@@ -5,7 +5,7 @@ export default defineEventHandler(async(event) => {
   //----> Check for admin privilege
       const { user } = await requireUserSession(event)
       
-      if (!!user){
+      if (!user){
         return createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"})
       }
      
