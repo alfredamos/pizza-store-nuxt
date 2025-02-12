@@ -10,7 +10,7 @@ export default defineEventHandler(async(event) => {
       
       console.log("In admin-middleware, isAdmin: ", isAdmin)
       if (!isAdmin){
-        return createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"})
+        return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
       }
     
   

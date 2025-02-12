@@ -1,7 +1,7 @@
-import { LayoutKey } from '../../.nuxt/types/layouts';
 <template>
-  <NavigationBar    
+    <NavigationBar    
   />
+    
   <main class="grid grid-cols-12">
     <section class="hidden md:block md:col-span-1 bg-gray-300 min-h-screen">
       <SideBar
@@ -11,8 +11,5 @@ import { LayoutKey } from '../../.nuxt/types/layouts';
       <slot />
     </section>
   </main>
+  
 </template>
-
-<script></script>
-
-<style lang="scss" scoped></style>

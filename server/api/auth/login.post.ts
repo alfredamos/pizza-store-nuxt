@@ -1,10 +1,12 @@
 import { StatusCodes } from "http-status-codes";
 import { loginWithoutAuthAction } from "~~/actions/auth.action";
 import { LoginModel } from "~~/models/auth/login.model";
+import {sendError} from "h3";
+import { loginSchema } from "~~/validations/auth.validation";
 
 export default defineEventHandler(async (event) => {
 try{
-  const body = await readBody<LoginModel>(event);
+  const body = await readValidatedBody(event, (body) => loginSchema.parse(body));
 
   const response = await loginWithoutAuthAction(body);
     
@@ -21,10 +23,10 @@ try{
         }
       });
     
-      return response;
+    return response;
 
       } catch (error: any) {
-        return createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: error.message})
+        return sendError(event, createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: error.message}));
       }
       
 

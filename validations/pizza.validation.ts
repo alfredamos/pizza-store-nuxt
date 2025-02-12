@@ -1,7 +1,7 @@
 import {z} from 'zod';
 
 export const pizzaSchema = z.object({
-     id: z.string().optional(),
+  id: z.string().optional().default(""),
   name: z.string(),
   topping: z.string(),
   price: z.number(),

@@ -13,6 +13,7 @@ export const loginSchema = z.object({
 });
 
 export const editProfileSchema = z.object({
+  address: z.string(),
   name: z.string(),
   email: z.string(),
   phone: z.string(),
@@ -28,7 +29,7 @@ export const signupSchema = z.object({
   gender: z.enum(["Male", "Female"]),  
   confirmPassword: z.string(),
   password: z.string(),
-});
+}).refine((values) => values.password === values.confirmPassword);
 
 export const roleChangeSchema = z.object({
   email: z.string(),

@@ -6,6 +6,7 @@
           type="search"
           name="searchTerm"
           v-model="searchTerm"
+          @change="submitSearch"
           class="border-solid border-2 border-gray-300 focus:border-solid focus:border-indigo-600 focus:outline-none text-black w-full rounded-lg p-3"
         />
         <button

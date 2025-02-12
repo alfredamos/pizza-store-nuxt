@@ -46,7 +46,7 @@
         Cancel
       </button>
     </div>
-    <div class="mt-4 mb-4" v-if="props?.errorMessage">{{ props?.errorMessage }}</div>
+    <div class="mt-4 mb-4 text-red-700" v-if="props?.errorMessage">{{ props?.errorMessage }}</div>
    <div class="text-muted">
     <NuxtLink to="/signup"><span class="mr-2">Don't have an account?</span><span class="text-indigo-900">Please signup</span></NuxtLink>
    </div> 

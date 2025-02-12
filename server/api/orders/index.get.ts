@@ -8,7 +8,7 @@ export default defineEventHandler(async(event) => {
       
       const isAdmin = user?.role === Role.Admin
       if (!isAdmin){
-        return createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"})
+        return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
       }
     
   

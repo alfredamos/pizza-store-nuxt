@@ -1,6 +1,5 @@
 import prisma from "./prisma.db";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { Role, type User } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
 import type { ChangePasswordModel } from "~~/models/auth/changePassword.model";
@@ -96,16 +95,13 @@ export class AuthDb {
     const user = await this.getUserByEmail(email);
 
     //----> Compare the new password with old password.
-    const isMatch = await this.comparePassword(password, user);
+    await this.comparePassword(password, user);
 
-    //----> Get json web token.
-    const token = this.getJsonToken(user.id, user.name, user.role);
-
+    //----> Destructure the user payload to take out the password.
     const { password: userPassword, ...restOfData } = user;
   
     const authResponse: AuthResponseModel = {
       user: restOfData as UserResponseModel,
-      token,
       isLoggedIn: true,
       isAdmin: user?.role === Role.Admin,
     };
@@ -128,14 +124,11 @@ export class AuthDb {
       data: { ...rest, password: hashNewPassword, email },
     });
 
-    //----> Get json web token.
-    const token = this.getJsonToken(newUser.id, newUser.name, newUser.role);
-
+    //----> Destructure the user payload to take out the password.
     const { password: userPassword, ...restOfData } = newUser;
   
     const authResponse: AuthResponseModel = {
       user: restOfData as UserResponseModel,
-      token,
       isLoggedIn: true,
       isAdmin: newUser?.role === Role.Admin,
     };
@@ -184,9 +177,7 @@ export class AuthDb {
   }
 
   private matchPassword(newPassword: string, oldPassword: string) {
-    const isMatch = newPassword.normalize() === oldPassword.normalize();
-
-    return isMatch;
+    return newPassword.normalize() === oldPassword.normalize();
   }
 
   private async getUserById(id: string,) {
@@ -250,19 +241,6 @@ export class AuthDb {
     }
   }
 
-  private getJsonToken(id: string, name: string, role: Role) {
-    const token = jwt.sign(
-      {
-        id,
-        name,
-        role,
-      },
-      process.env.JWT_TOKEN_SECRET!,
-      { expiresIn: "24hr" }
-    );
-
-    return token;
-  }
 }
 
 export const authDb = new AuthDb();

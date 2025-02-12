@@ -1,4 +1,4 @@
-import { Gender } from "../gender.model";
+import { Gender } from "@prisma/client";
 
 export class EditProfileModel {
   name: string = "";

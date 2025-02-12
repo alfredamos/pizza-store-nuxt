@@ -10,7 +10,7 @@ export default defineEventHandler(async(event) => {
 
       if (!user){
         console.log("In my orders", {user})
-        return createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials!"})
+        return sendError(event,createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials!"}));
       }
  
   const userId = getRouterParam(event, 'userId') ?? idOfUser;

@@ -20,7 +20,3 @@ const cartItemStore = useCartItemStore()
  })
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>

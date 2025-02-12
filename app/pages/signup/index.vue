@@ -38,10 +38,9 @@ const submitForm = async (signupModel: SignupModel) => {
     await navigateTo('/login');
   })
   .catch((error: any) => {
-    errorMessage.value = error?.message;
+    errorMessage.value = error?.statusMessage;
   });
 
-  navigateTo("/");
 };
 </script>
 

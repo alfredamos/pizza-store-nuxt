@@ -20,7 +20,6 @@ export const useAuthStore = defineStore("auth", () => {
   const isLoggedIn = computed(() => authState.value?.isLoggedIn);
   const isAdmin = computed(() => authState.value?.isAdmin);
   const currentUser = computed(() => authState.value?.user);
-  const token = computed(() => authState.value?.token);
   const userId = computed(() => authState.value?.user?.id)
   //----> Actions
   const login = (authStateRes: AuthState) => {
@@ -40,7 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const setAuthState = (authResponse: AuthResponseModel) => {
-    authState.value = {user: authResponse.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn), token: authResponse.token}
+    authState.value = {user: authResponse.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn)}
   }
 
   const updateUserInfo = (userInfo: UserResponseModel) => {
@@ -69,7 +68,6 @@ export const useAuthStore = defineStore("auth", () => {
     isAdmin,
     isLoggedIn,
     currentUser,
-    token,
     login,
     loginWithoutAuth,
     logout,
