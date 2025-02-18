@@ -4,6 +4,7 @@ import type { CartItem } from "~~/models/cartItems/cartItem.model";
 import { v4 as uuidv4 } from "uuid";
 import type { OrderPayload } from "~~/models/orders/orderPayload.model";
 import {defineStore} from "pinia";
+import { Status } from "@prisma/client";
 
 export const useCartUtilStore = defineStore("cartUtil", () => {
   const cartItemStore = useCartItemStore();
@@ -62,6 +63,7 @@ export const useCartUtilStore = defineStore("cartUtil", () => {
         totalQuantity: totalQuantity(carts),
         userId: userId,
         orderDate: new Date(),
+        status: Status.Pending
       };
 
       return orderPayload;

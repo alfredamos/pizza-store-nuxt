@@ -8,7 +8,7 @@ export const usePizzaStore = defineStore("pizza", () => {
 
   //----> Acts like a constructor
   onMounted(() => {
-    const stateOfPizza = getLocalStoragePizzas();
+    const stateOfPizza = getLocalStoragePizzas() ?? [];
 
     if (!!stateOfPizza) {
       pizzaState.value = { ...pizzaState.value, pizzas: stateOfPizza };
@@ -17,7 +17,7 @@ export const usePizzaStore = defineStore("pizza", () => {
 
 
   //----> Getters
-  const pizzas = computed(() => pizzaState.value?.pizzas);
+  const pizzas = computed(() => pizzaState.value?.pizzas ?? []);
 
   const addPizza = (pizza: Pizza) => {
     const newPizzas = [...pizzaState.value?.pizzas, pizza];

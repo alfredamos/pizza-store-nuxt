@@ -1,15 +1,17 @@
 <template>
   <div class="overflow-x-auto bg-white m-6 shadow-inner rounded mx-4 p-3">
-    <form @submit.prevent="submitSearch">
+    <!-- <form @submit.prevent="submitSearch"> -->
+    <form>
       <div class="flex justify-between items-center mb-5 mt-5 w-3/4 mx-auto">
         <input
           type="search"
           name="searchTerm"
           v-model="searchTerm"
+          @input="submitSearch"
           class="border-solid border-2 border-gray-300 focus:border-solid focus:border-indigo-600 focus:outline-none text-black w-full rounded-lg p-3"
         />
         <button
-          type="submit"
+          type="button"
           class="bg-blue-900 hover:bg-rose-700 text-blue-200 text-lg font-bold py-3 px-8 rounded-lg mx-4 uppercase"
         >
           Search
@@ -71,30 +73,39 @@ definePageMeta({
 
 const searchTerm = ref("");
 
-const url = `${userBaseUrl}`;
-
 const userStore = useUserStore();
 
 const filteredUsers = ref<User[]>([]);
+const users = ref<User[]>([])
 
-const {data: users} = await useFetch<User[]>(url);
+const url = `${userBaseUrl}`
+const {getResource} = useGetResource<User[]>(url, 'GET')
 
-onMounted(() => {
+onMounted(async() => {
   loadUser();
+  
 });
 
+
+console.log("In index, users : ", users.value)
 const loadUser = async () => {
-  userStore.editAllUsers(users.value!);
-  filteredUsers.value = [...users.value!];
+  const {data} = await getResource()
+  users.value = data
+  userStore.editAllUsers(users.value);
+  filteredUsers.value = [...users.value];
   console.log("in on-mounted, users : ", users);
 };
 
-const submitSearch = async () => {
+const submitSearch = () => {
   const searchedUsers = users.value?.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
-      user.phone.toLowerCase().includes(searchTerm.value?.toLowerCase())
+      user.email
+        .toLowerCase()
+        .includes(searchTerm.value?.toLowerCase()) ||
+      user.phone.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
+      user.address.toLowerCase().includes(searchTerm.value?.toLowerCase()) ||
+      user.gender.toString().toLowerCase().includes(searchTerm.value?.toLowerCase())
   )!;
 
   filteredUsers.value = [...searchedUsers];
@@ -105,4 +116,6 @@ const deleteUser = (userId: string) => {
 
   userStore.deleteUser(userId);
 };
+
+
 </script>

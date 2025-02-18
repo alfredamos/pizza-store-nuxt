@@ -7,7 +7,7 @@ export function useFetchApp<T>(method: Method){
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body) ?? {}
+      body: body? body : {} 
     })
 
   return {data}

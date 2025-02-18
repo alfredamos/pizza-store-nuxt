@@ -78,6 +78,8 @@ export async function signupAction(signupModel: SignupModel) {
     gender,
   } = signupModel;
 
+  console.log({signupModel})
+
   //----> Store the new user credentials in the database.
   const newUser = await authDb.signup({
     address,

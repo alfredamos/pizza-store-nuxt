@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { stripePaymentCheckout } from "~~/actions/stripe.action";
 import { OrderPayload } from "~~/models/orders/orderPayload.model";
-import { orderSchema } from "~~/validations/order.validation";
 
 export default defineEventHandler(async(event) => {
   //----> Check for admin privilege

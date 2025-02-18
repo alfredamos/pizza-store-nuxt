@@ -7,7 +7,7 @@ export function useSentDataToDb<T>(url: string, method: Method){
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)
+      body: body ? body : {}
     })
 
   return {data}

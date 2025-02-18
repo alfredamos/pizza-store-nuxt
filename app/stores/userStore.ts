@@ -7,11 +7,11 @@ export const useUserStore = defineStore("user", () => {
   const userState = ref<UserState>({ ...new UserState() });
 
   //----> Getters
-  const users = computed(() => userState.value?.users);
+  const users = computed(() => !!userState.value?.users?  userState.value.users: []);
 
   //----> Acts like a constructor
   onMounted(() => {
-    const stateOfUser = getLocalStorageUsers();
+    const stateOfUser = getLocalStorageUsers() ?? [];
 
     if (!!stateOfUser) {
       userState.value = { ...userState.value, users: stateOfUser };
@@ -46,7 +46,7 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const editAllUsers = (users: UserPayload[]) => {
-    userState.value = { ...userState.value, users };
+    userState.value = {...userState.value, users };
 
     setLocalStorageUsers(users);
   };
