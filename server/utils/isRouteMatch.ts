@@ -1,0 +1,1 @@
+export const isRouteMatch = (route1: string, route2: string) => route1 === route2; 

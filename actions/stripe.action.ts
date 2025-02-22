@@ -5,7 +5,8 @@ import type { OrderPayload } from "~~/models/orders/orderPayload.model";
 
 
 export async function createPaymentIntent(amount: number, description: string){
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!,{
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
+  const stripe = new Stripe(stripeSecretKey,{
     typescript: true,
     apiVersion: "2025-01-27.acacia"
   });

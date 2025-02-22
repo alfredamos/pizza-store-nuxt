@@ -11,6 +11,12 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-auth-utils"
   ],
+  nitro: {
+    experimental: {
+      asyncContext: true
+    },
+  }
+  
    
  
 });

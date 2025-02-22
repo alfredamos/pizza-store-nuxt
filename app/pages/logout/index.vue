@@ -19,4 +19,6 @@ const cartItemStore = useCartItemStore()
     navigateTo("/");
  })
 
+ 
+
 </script>

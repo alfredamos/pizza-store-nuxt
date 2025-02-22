@@ -1,19 +1,10 @@
-import { Role } from "@prisma/client";
-import { StatusCodes } from "http-status-codes";
 import { deleteOrderById } from "~~/actions/order.action";
-import {sendError} from "h3"
 
 export default defineEventHandler(async(event) => {
-  //----> Check for admin privilege
-    const { user } = await requireUserSession(event)
-    
-    const isAdmin = user?.role === Role.Admin
-    if (!isAdmin){
-      return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
-    }
-  
+  //----> get the route param.
   const orderId = getRouterParam(event, 'orderId')!;
 
+  //----> Delete the order in the database.
   const response = await deleteOrderById(orderId);
 
   return response;
