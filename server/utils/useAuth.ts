@@ -9,12 +9,12 @@ export function useAuth(){
   const event = useEvent();
   
   async function getUserAuth(route: string){
-    console.log("Point 1, route : ", route)
-    //----> Check for public route.
+    //----> Check if route matches logout route.
     const isMatch = isRouteMatch(route, '/api/_auth/session');
-    console.log({isMatch});
+
+    //----> Check for public route.
     if (isPublicRoutes(route)) return;
-    console.log("Point 2, route : ", route)
+    
     //----> Get user-session
     const { user } = await requireUserSession(event);
     
