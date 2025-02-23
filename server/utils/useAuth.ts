@@ -15,10 +15,13 @@ export function useAuth(){
     //----> get the user.
     const user = await getUser();
     
-      if (!user){
-        if(isMatch) return sendError(event, createError({statusCode: StatusCodes.OK, statusMessage: "You are logged out!"}));
-        return sendError(event, createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials"}));
-      }
+    //----> Check for authenticated status of user.
+      const isLoggedIn = await isUserAuthenticated();
+    
+    //----> Check for logout status.
+    if(isMatch && !isLoggedIn){
+      return sendError(event, createError({statusCode: StatusCodes.OK, statusMessage: "User has logged out!"}))
+    }
 
       return user;
   }
@@ -46,14 +49,13 @@ export function useAuth(){
     const user = await getUser();
          
     //----> Check for admin privilege
-          const isAdmin = user?.role === Role.Admin
-          if (!isAdmin){
-            return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
-          }
+    const isAdmin = await isUserAdmin()
+    if (!isAdmin){
+      return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
+    }
     
-    //----> It is admin.
-          return user;
-      
+    //----> The current admin current.
+    return user;
   }
 
   async function getUserId(){
@@ -71,6 +73,7 @@ export function useAuth(){
     //----> Check for admin status.
     return user?.role === Role.Admin;
   }
+
   async function isUserAuthenticated(){
     //----> get the user.
     const user = await getUser();
@@ -78,7 +81,14 @@ export function useAuth(){
     const role = user?.role;
 
     //----> Get authentication status.
-    return isAuthenticated(role!);
+    const isLoggedIn = isAuthenticated(role!);
+
+    if(!isLoggedIn){
+        return sendError(event, createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials"}));
+    }
+
+    //----> Send back the log in status of user.
+    return isLoggedIn
   }
 
   async function getUser(){
