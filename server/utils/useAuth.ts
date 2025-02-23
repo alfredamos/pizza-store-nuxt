@@ -12,15 +12,13 @@ export function useAuth(){
     //----> Check if route matches logout route.
     const isMatch = isRouteMatch(route, '/api/_auth/session');
 
-    //----> get the user.
-    const user = await getUser();
-    
     //----> Check for authenticated status of user.
-      const isLoggedIn = await isUserAuthenticated();
+      const {isLoggedIn, user} = await isUserAuthenticated();
     
     //----> Check for logout status.
-    if(isMatch && !isLoggedIn){
-      return sendError(event, createError({statusCode: StatusCodes.OK, statusMessage: "User has logged out!"}))
+    if(!isLoggedIn){
+      if (isMatch) return sendError(event, createError({statusCode: StatusCodes.OK, statusMessage: "User has logged out!"}));
+      return sendError(event, createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials!"}));
     }
 
       return user;
@@ -45,11 +43,8 @@ export function useAuth(){
   }
 
   async function adminUser(){
-     //----> get the user.
-    const user = await getUser();
-         
     //----> Check for admin privilege
-    const isAdmin = await isUserAdmin()
+    const {isAdmin, user} = await isUserAdmin()
     if (!isAdmin){
       return sendError(event,createError({statusCode: StatusCodes.FORBIDDEN, statusMessage: "You are not permitted!"}));
     }
@@ -71,24 +66,23 @@ export function useAuth(){
     const user = await getUser();
     
     //----> Check for admin status.
-    return user?.role === Role.Admin;
+    const isAdmin = user?.role === Role.Admin;
+
+    return {isAdmin, user}
   }
 
   async function isUserAuthenticated(){
     //----> get the user.
     const user = await getUser();
+    console.log({user})
     //----> Get the user role.
     const role = user?.role;
-
+    console.log({role})
     //----> Get authentication status.
     const isLoggedIn = isAuthenticated(role!);
-
-    if(!isLoggedIn){
-        return sendError(event, createError({statusCode: StatusCodes.UNAUTHORIZED, statusMessage: "Invalid credentials"}));
-    }
-
+    console.log({isLoggedIn})
     //----> Send back the log in status of user.
-    return isLoggedIn
+    return {isLoggedIn, user};
   }
 
   async function getUser(){

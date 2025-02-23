@@ -4,6 +4,7 @@ export default defineEventHandler(async(event) => {
   //----> Get the user auth composable.
   const {adminUser, isUserAdmin} = useAuth();
 
+  const {isAdmin} = await isUserAdmin()
   //----> Demand admin privilege.
-  if (await isUserAdmin())await adminUser();
+  if (isAdmin)await adminUser();
 })
