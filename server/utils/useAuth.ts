@@ -74,13 +74,13 @@ export function useAuth(){
   async function isUserAuthenticated(){
     //----> get the user.
     const user = await getUser();
-    console.log({user})
+    
     //----> Get the user role.
     const role = user?.role;
-    console.log({role})
+    
     //----> Get authentication status.
     const isLoggedIn = isAuthenticated(role!);
-    console.log({isLoggedIn})
+    
     //----> Send back the log in status of user.
     return {isLoggedIn, user};
   }
