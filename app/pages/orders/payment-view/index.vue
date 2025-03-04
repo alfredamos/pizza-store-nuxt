@@ -68,6 +68,7 @@ const cartUtilStore = useCartUtilStore();
 const { cartItems: carts } = storeToRefs(cartItemStore);
 
 const { currentUser } = storeToRefs(authStore);
+console.log("current-user : ", currentUser?.value)
 const userId = currentUser.value?.id;
 
 const totalPrice = computed(() => cartItemStore.totalPrice);

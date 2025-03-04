@@ -48,7 +48,10 @@
           <td>{{ pizza.name }}</td>
           <td>{{ pizza.price }}</td>
           <td>{{ pizza.quantity }}</td>
-          <td>{{ pizza.description }}</td>
+          <td>
+        <span class="text-muted mr-4">{{isShowMore ? pizza.description : pizza.description.substring(0,40) }}</span>
+        <button class="bg-zinc-200 text-indigo-900 py-1 px-2 text-sm rounded-lg flex justify-center items-center hover:bg-indigo-900 hover:text-zinc-200 font-semibold" @click="showMoreText(pizza.id)" type="button">{{isShowMore ? "Less" : "More"}}</button>
+          </td>
           <td>{{ pizza.topping }}</td>
           <td>
             <PizzaDeleteViewEdit
@@ -76,11 +79,15 @@
 import type { Pizza } from '@prisma/client';
 import { pizzaBaseUrl } from '~~/constants/pizzaBaseUrl';
 
+//----> State.
+const isShowMore = ref(false);
 
+//----> Meta.
 definePageMeta({
   middleware: ["authenticated", "admin"]
 })
 
+//----> State
 const searchTerm = ref("");
 
 const pizzaStore = usePizzaStore();
@@ -99,6 +106,16 @@ const loadPizza = () => {
   filteredPizzas.value = [...pizzas.value!];
   console.log("in on-mounted, pizzas : ", pizzas);
 };
+
+const showMoreText = (pizzaId: string) => {
+  console.log("pizza-id : ", pizzaId);
+  pizzas.value?.forEach(pizza =>  {
+    if(pizza.id === pizzaId){
+      console.log("loop-id : ", pizza.id , " , ", "given-id : ", pizzaId)
+      isShowMore.value = !isShowMore.value;
+    }
+  })
+}
 
 const submitSearch = () => {
   const searchedPizzas = pizzas.value?.filter(

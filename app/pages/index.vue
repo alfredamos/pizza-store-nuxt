@@ -15,16 +15,20 @@
           class="object-cover w-full h-48"
         />
       </figure>
+      <span class="flex justify-end mr-1 text-rose-900 font-bold hover:text-indigo-900"><NuxtLink :to="`/pizzas/${pizza?.id}`" @click="detailPizza(pizza)">Detail</NuxtLink></span>
       <div class="card-body">
         <h2 class="card-title">
-          <NuxtLink :to="`/pizzas/{{ pizza.id }}/detail`">{{
+          <NuxtLink :to="`/pizzas/${ pizza.id }`">{{
             pizza.name
           }}</NuxtLink>
         </h2>
         <p>${{ pizza.price }}</p>
-        <p>{{ pizza.description }}</p>
+         <p>
+        <span class="text-muted mr-4">{{isShowMore ? pizza.description : pizza.description.substring(0,40) }}</span>
+        <button class="bg-zinc-200 text-indigo-900 py-1 px-2 text-sm rounded-lg flex justify-center items-center hover:bg-indigo-900 hover:text-zinc-200 font-semibold" @click="showMoreText(pizza.id)" type="button">{{isShowMore ? "Less" : "More"}}</button>
+         </p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary" @click="addToCart(pizza)">
+          <button class="btn btn-primary hover:text-indigo-900 hover:bg-zinc-200 font-semibold" @click="addToCart(pizza)">
             Buy Now
           </button>
         </div>
@@ -40,9 +44,12 @@ import { pizzaBaseUrl } from '~~/constants/pizzaBaseUrl';
 import type { CartItem } from '~~/models/cartItems/cartItem.model';
 import type { Pizza } from '~~/models/pizzas/pizza.model';
 
+//----> States
+const isShowMore = ref(false);
 
 const url = `${pizzaBaseUrl}`;
 
+//----> stores
 const cartItemStore = useCartItemStore();
 const { cartItems, isAddToCart } = storeToRefs(cartItemStore);
 
@@ -50,14 +57,17 @@ const cartUtilStore = useCartUtilStore()
 
 const pizzaStore = usePizzaStore();
 
+//----> Computed value
 const {data: pizzas} = await useFetch<Pizza[]>(url)
 
 const router = useRouter();
 
+//----> Life cycle
 onMounted(() => {
   loadPizza();
 });
 
+//----> Actions
 const loadPizza = async () => {
   pizzaStore.editAllPizzas(pizzas.value!);
 };
@@ -68,6 +78,21 @@ const addToCart = (pizza: Pizza) => {
 
   cartUtilStore.makeCartItems(pizza, cartItems.value);
 };
+
+const showMoreText = (pizzaId: string) => {
+  console.log("pizza-id : ", pizzaId);
+  pizzas.value?.forEach(pizza =>  {
+    if(pizza.id === pizzaId){
+      console.log("loop-id : ", pizza.id , " , ", "given-id : ", pizzaId)
+      isShowMore.value = !isShowMore.value;
+    }
+  })
+}
+
+const detailPizza = (pizza: Pizza) => {
+pizzaStore.updatePizza(pizza)
+}
+
 
 const toCart = (carts: CartItem[]) => {
   console.log("The cart-items to cart : ", { carts });

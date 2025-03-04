@@ -39,7 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const setAuthState = (authResponse: AuthResponseModel) => {
-    authState.value = {user: authResponse.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn)}
+    authState.value = {user: authResponse?.user, isAdmin: Boolean(authResponse.isAdmin), isLoggedIn: Boolean(authResponse.isLoggedIn)}
   }
 
   const updateUserInfo = (userInfo: UserResponseModel) => {

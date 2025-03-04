@@ -1,10 +1,9 @@
 <template>
-  <OrdersTable
-  :orders="orders ?? []"
-  :show-action-buttons="false"
-  :show-buttons="false"
-  >
-  </OrdersTable>
+  <OrdersTableGeneral
+    :orders="orders!"
+    :is-show-action="false"
+    :is-show-handlers="false"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -23,3 +22,4 @@ console.log("in-my-order, url : ", url)
 const {data: orders} = await useFetch<OrderModel[]>(url);
 </script>
 
+ 

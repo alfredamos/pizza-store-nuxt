@@ -1,15 +1,9 @@
 <template>
-  <OrdersTable
-  :orders="allOrders!"
-  :show-action-buttons="false"
-  :show-buttons="false"
-  >
-  <div class="flex justify-around w-full font-bold">
-    <NuxtLink to="/orders/delivered" class="flex 1 text-green-900">Delivered Orders</NuxtLink>
-    <NuxtLink to="/orders/shipped" class="flex 1 text-yellow-700">Shipped Orders</NuxtLink>
-    <NuxtLink to="/orders/pending" class="flex 1 text-red-900">Pending Orders</NuxtLink>
-    </div>
-  </OrdersTable>
+  <OrdersTableGeneral
+    :orders="allOrders!"
+    :is-show-action="false"
+    :is-show-handlers="false"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -20,9 +14,27 @@ definePageMeta({
   middleware: ["authenticated", "admin"]
 })
 
-const url = `${orderBaseUrl}` 
+//----> state
+const allOrders = ref<OrderModel[]>([]);
 
-const {data: allOrders} = await useFetch<OrderModel[]>(url);
+//----> Stores.
+const orderStore = useOrderStore();
 
+//----> Fetch orders.
+const {getResource} = useGetResource<OrderModel[]>(orderBaseUrl, 'GET');
+
+//----> Life cycle.
+onMounted(async() => {
+  await onLoad()
+})
+
+//----> Actions
+const onLoad = async () => {
+  const {data: orders} = await getResource();
+
+  allOrders.value = orders;
+
+   orderStore.editAllOrders(orders);
+}
 </script>
 

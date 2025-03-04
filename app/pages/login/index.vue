@@ -42,12 +42,12 @@ const {validateDataSchema} = useValidateInputData()
     authStore.loginWithoutAuth(data);
     // Refresh the session on client-side and redirect to the home page
     await refreshSession();
-    const {isConfirmed} = await Swal.fire({
+    /* Swal.fire({
       icon: "success",
       title: "Login",
       text: "Login is successful!",
-    });
-    isConfirmed && navigateTo('/') ;
+    }); */
+    navigateTo('/') ;
   })
   .catch((error: any) => {
     errorMessage.value = error?.statusMessage;

@@ -7,6 +7,7 @@
 <script setup lang="ts">
 const {clear, fetch: refreshSession} = useUserSession()
 const authStore = useAuthStore();
+const {removeLocalStorage} = usePizzaStore()
 
 const cartItemStore = useCartItemStore()
 
@@ -15,6 +16,7 @@ const cartItemStore = useCartItemStore()
     await clear()
    authStore.logout()
    cartItemStore.removeLocalStorageCartItems()
+   removeLocalStorage("pizzas");
    refreshSession();
     navigateTo("/");
  })

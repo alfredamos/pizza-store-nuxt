@@ -1,65 +1,85 @@
 <template>
-<OrdersTable
-  :orders="allOrders ?? []"
-  :show-action-buttons="true"
-  :show-buttons="true"
-  @delete="onDeleteOrder($event)"
-  @shipped="onShippedOrder($event)"
+<OrdersTableGeneral
+    :orders="allOrders!"
+    :is-deleted="true"
+    :is-shipped="true"
+    @on-delete-order="onDeleteOrder"
+    @on-shipped-order="onShippedOrder"
   >
-   <div class="flex justify-around w-full font-bold">
+  <div class="flex justify-around w-full font-bold">
     <NuxtLink to="/orders" class="flex 1 text-indigo-900">All Orders</NuxtLink>
     <NuxtLink to="/orders/delivered" class="flex 1 text-green-900">Delivered Orders</NuxtLink>
-    <NuxtLink to="/orders/shipped" class="flex 1 text-yellow-700">Shipped Orders</NuxtLink>
+    <NuxtLink to="/orders/shipped" class="flex 1 text-red-900">Shipped Orders</NuxtLink>
     </div>
-</OrdersTable>
+  </OrdersTableGeneral>
 </template>
 
 <script lang="ts" setup>
-import { Status } from '@prisma/client';
+import { Status} from '@prisma/client';
 import { orderBaseUrl } from '~~/constants/orderBaseUrl';
 import type { OrderModel } from '~~/models/orders/orderModel.model';
-import type { OrderPayload } from '~~/models/orders/orderPayload.model';
-//import { OrdersTable } from '#components';
+import { useFetchApp } from '../../../composables/useFetchApp';
 
 definePageMeta({
   middleware: ["authenticated", "admin"]
 })
 
-const {fetchApp: fetchAppPatch} = useFetchApp<OrderPayload>('PATCH');
-const  {fetchApp: fetchAppDelete} = useFetchApp<OrderPayload>('delete');
+//----> Fetch orders.
+const {getResource} = useGetResource<OrderModel[]>(orderBaseUrl, 'GET')
 
+//----> Patch and delete order
+const {fetchApp: fetchAppPatch} = useFetchApp<OrderModel>('PATCH');
+const  {fetchApp: fetchAppDelete} = useFetchApp<OrderModel>('delete');
+
+//----> Stores
 const orderStore = useOrderStore();
 
-const {orders} = await orderStore.getOrdersFromDb(Status.Pending)
-
+//----> State
 const allOrders = ref<OrderModel[]>([]);
+const refresh = ref(false);
 
-onMounted(() => {
-  allOrders.value = orders!;
-});
+//----> Life cycle.
+onMounted(async() => {
+  await onLoad()
+})
+
+//----> Actions
+const onLoad = async () => {
+  const {data: orders} = await getResource();
+  allOrders.value = orders?.filter(order => order.status === Status.Pending);
+
+  orderStore.editAllOrders(orders);
+}
 
 const onShippedOrder = async (orderId: string) => {
-  const urlShipped = `${orderBaseUrl}/${orderId}/shipped`;
+  console.log("is-shipped");
+  orderStore.changeIsPending(false);
 
-  const {data: updatedOrder} = await fetchAppPatch(urlShipped, {} as OrderPayload);
+  //----> Updated the order in the database.
+  const {data: updatedOrder} = await fetchAppPatch(`${orderBaseUrl}/${orderId}/shipped`);
+  
+  //----> Filter for pending orders.
   allOrders.value = [
     ...allOrders.value
       ?.map((order) => (order.id === orderId ? updatedOrder : order))
-      ?.filter((ord) => ord?.status === Status.Pending),
+      ?.filter((ord) => ord.status === Status.Pending)
+      
   ];
-
-  orderStore.editOrder(updatedOrder);
-  orderStore.changeIsPending(false);
+  //----> Refresh
+  refresh.value = true
+  //----> Update order-store
+  orderStore.editOrder(updatedOrder!);
+  //----> Refresh to default.
+  refresh.value = false;
 };
 
 const onDeleteOrder = async (orderId: string) => {
-  orderStore.deleteOrder(orderId);
+  console.log("order-is-deleted");
+  await fetchAppDelete(`${orderBaseUrl}/${orderId}/delete`);
 
-  const urlDeleted = `${orderBaseUrl}/${orderId}/delete`
-  
-  await fetchAppDelete(urlDeleted, {} as OrderPayload);
-  allOrders.value = [
-    ...allOrders.value?.filter((order) => order.id !== orderId),
-  ]?.filter((order) => order.status === Status.Pending);
-};
+  allOrders.value?.filter(order => order.id !== orderId)
+  allOrders.value?.filter((order) => order.status === Status.Pending);
+
+   orderStore.deleteOrder(orderId);
+}
 </script>
