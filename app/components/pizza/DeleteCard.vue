@@ -23,8 +23,8 @@
     <span class="font-semibold w-full text-end">{{ props?.pizza?.topping }}</span>
   </p>
   <p>
-        <span className="font-light mr-5">Description</span>
-        <span className="text-muted mr-4">{{isShowMore ? props?.pizza.description : props?.pizza.description.substring(0,40) }}</span>
+        <span class="font-light mr-5">Description</span>
+        <span class="text-muted mr-4">{{isShowMore ? props?.pizza.description : props?.pizza.description.substring(0,40) }}</span>
           <button type="button" className=" text-indigo-900 hover:text-zinc-200 hover:bg-indigo-900 py-1 px-2 text-sm rounded-lg flex justify-center items-center text-muted font-semibold" @click="showMoreText">{{isShowMore ? "Less" : "More"}}</button>
       </p>
   <h4 class="mb-4 mt-4 border-b-2 border-t-2 font-semibold py-4 text-xl">

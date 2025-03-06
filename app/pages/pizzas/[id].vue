@@ -10,7 +10,7 @@
         :alt="pizza.name"
         height="500"
         width="500"
-        class="object-fit w-full min-h-screen"
+        class="object-fit w-full min-h-screen rounded-xl"
       />
     </figure>
   </div>
